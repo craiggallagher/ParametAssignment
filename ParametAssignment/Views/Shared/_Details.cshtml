@@ -1,0 +1,46 @@
+﻿
+
+@model ParametAssignment.Models.myTable
+<div class="panel panel-info">
+    <div class="panel-heading" style="font-size:20px">
+        <h2>List of User Information</h2>
+    </div>
+    <p>
+        @Html.ActionLink("Create New ", "Create", null, new { @class = "btn btn-sm btn-primary" })
+    </p>
+
+    <h2>Details</h2>
+
+    <div>
+        <h4>User Information</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Name)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Name)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Email)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Email)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Phone_Numer)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Phone_Numer)
+            </dd>
+
+
+        </dl>
+    </div>
+
+</div>

@@ -1,0 +1,126 @@
+﻿@model IEnumerable<ParametAssignment.Models.myTable>
+
+@using System.Data
+
+
+
+
+
+    <p>
+        @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-sm btn-primary" })
+    </p>
+@using (Html.BeginForm("Index", "Home", FormMethod.Get))
+{
+    <p>
+        Name: @Html.TextBox("SearchString")
+        <input type="submit" class="btn btn-info btn-sm" value="Filter" />
+    </p>
+}
+ 
+    <table class="table table-bordered table-hover table-striped " style="margin-left:20px">
+       
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Email)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Phone_Numer)
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Phone_Numer)
+                    </td>
+                    <td>
+                        <span class="btn btn-warning btn-sm"  onclick="editTable('@item.TableID')">Edit</span>
+                        <span class="btn btn-success btn-sm" onclick="showTable('@item.TableID')">Details</span>
+                        <span class="btn btn-danger btn-sm"  onclick="deleteTable('@item.TableID')">Delete</span>
+                    </td>
+                </tr>
+            }
+
+        </table>
+        <div id="Detail"></div>
+    <div id="Delete"></div>
+<div id="Edit"></div>
+        <script>
+            function deleteTable(DTableID) {
+                $.ajax({
+                    url: '@Url.Action("TableByID")',
+                    data: { id: DTableID },
+                    success: function (data) {
+
+                        $('#Delete').hide();
+                        $('#Delete').html(data);
+                        $('#Delete').animate({
+                            opacity: 1,
+                            left: "+=50",
+                            height: "toggle"
+                        }, 3000, function () {
+                            // Animation complete.
+                        });
+                        $('#Detail').hide();
+                        $('#Edit').hide();
+                    },
+                });
+            }
+            function showTable(showTableID) {
+
+                $.ajax({
+                    url: '@Url.Action("ShowTableByID")',
+                    data: { id: showTableID },
+                }).done(function (data) {
+                    $('#Detail').hide();
+                    $('#Detail').html(data);
+                    $('#Detail').animate({
+                        opacity: 1,
+                        left: "+=50",
+                        height: "toggle"
+                    }, 3000, function () {
+                        // Animation complete.
+                    });
+
+                    $('#Edit').hide();
+                    $('#Delete').hide();
+
+
+                });
+
+            }
+
+            function editTable(ETableID) {
+
+                $.ajax({
+                    url: '@Url.Action("EditTableID")',
+                    data: { id: ETableID },
+                    success: function (data) {
+                        $('#Edit').hide();
+                        $('#Edit').html(data);
+                        $('#Edit').animate({
+                            opacity: 1,
+                            left: "+=50",
+                            height: "toggle"
+                        }, 3000, function () {
+                            // Animation complete.
+                        });
+                        $('#Delete').hide();
+                        $('#Detail').hide();
+
+                    },
+                    error: function (data) { $('#Edits').html('<h3>Error</h3>'); }
+                });
+            }
+        </script>
